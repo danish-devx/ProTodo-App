@@ -132,7 +132,7 @@ async function loginWithGoogle(e) {
     const { data, error } = await client.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: 'http://127.0.0.1:5500/todo.html' 
+            redirectTo: 'https://pro-todo-app.vercel.app/todo.html' 
         }
     });
 
@@ -151,7 +151,7 @@ async function loginWithGitHub(e) {
     const { data, error } = await client.auth.signInWithOAuth({
         provider: 'github',
         options: {
-            redirectTo: 'http://127.0.0.1:5500/todo.html'
+            redirectTo: 'https://pro-todo-app.vercel.app/todo.html'
         }
     });
 
