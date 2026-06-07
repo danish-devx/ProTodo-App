@@ -214,8 +214,6 @@ let currentEditingTaskId = null;
 
 
 async function deleteTask(id) {
-    console.log("Deleting ID:", id);
-
    
     Swal.fire({
         title: 'Delete Task?',
@@ -255,8 +253,6 @@ async function deleteTask(id) {
 
 
 async function editTask(id) {
-    console.log("Editing ID:", id);
-    
    
     const { data, error } = await client
         .from('todos')
@@ -288,8 +284,6 @@ async function editTask(id) {
 
 
 async function toggleComplete(id, currentStatus) {
-    console.log("Toggling Task ID:", id, "Current Status:", currentStatus);
-
    
     const newStatus = !currentStatus;
 
@@ -310,7 +304,7 @@ async function toggleComplete(id, currentStatus) {
 
     Swal.fire({
         icon: 'success',
-        title: newStatus ? 'Task Completed! 🎉' : 'Task Reopened 📝',
+        title: newStatus ? 'Task Completed!' : 'Task Reopened',
         timer: 1000,
         showConfirmButton: false
     });
