@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProTodo - Dashboard</title>
+    <link rel="stylesheet" href="todo.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+
+<body>
+
+
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <span class="brand-name">ProTodo</span>
+        </div>
+        <div class="nav-right">
+            <button class="logout-btn" id="logout">
+                <span>Log Out</span>
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </div>
+    </nav>
+
+
+    <div class="dashboard-wrapper">
+
+
+        <aside class="sidebar-form">
+            <div class="form-header">
+                <i class="fa-solid fa-square-plus form-title-icon"></i>
+                <h2>Create New Task</h2>
+            </div>
+
+            <form class="task-creation-form">
+                <div class="input-group">
+                    <label for="taskTitle">Task Title</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-pen-to-square input-icon"></i>
+                        <input type="text" id="taskTitle" placeholder="What needs to be done?" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="taskCategory">Category</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-tag input-icon"></i>
+                        <select id="taskCategory" required>
+                            <option value="" disabled selected>Select priority layer</option>
+                            <option value="work">Work Project</option>
+                            <option value="personal">Personal Task</option>
+                            <option value="urgent">Urgent Priority</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="taskDesc">Task Description</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-file-lines textarea-icon"></i>
+                        <textarea id="taskDesc" rows="5" placeholder="Add custom notes or brief context..."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit-task" id="add-btn">
+                    <span>Add Task to Board</span>
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </form>
+        </aside>
+
+
+        <main class="main-dashboard">
+            <div class="dashboard-header">
+                <div class="header-left">
+                    <h1>Task Dashboard</h1>
+                    <p>Manage and track your active progress layers.</p>
+                </div>
+                <div class="total-tasks-box">
+                    <div class="counter-num" id="num">0</div>
+                    <div class="counter-label">Total Tasks</div>
+                </div>
+            </div>
+
+
+            <div class="tasks-grid" id="show">
+
+
+                <!-- <div class="task-card urgent-border">
+                    <div class="card-top">
+                        <span class="tag-badge badge-urgent">Urgent</span>
+                        <button class="check-btn" title="Mark as Complete">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                    </div>
+                    <h3 class="task-card-title">Review Marketing Campaign Plan</h3>
+                    <p class="task-card-desc">Finalize budget matrices and design layers with the media core department
+                        before the evening sync meetup.</p>
+                    <div class="card-actions">
+                        <button class="action-btn edit" title="Edit Task">
+                            <i class="fa-regular fa-pen-to-square"></i> Edit
+                        </button>
+                        <button class="action-btn delete" title="Delete Task">
+                            <i class="fa-regular fa-trash-can"></i> Delete
+                        </button>
+                    </div>
+                </div>
+
+               
+                <div class="task-card work-border">
+                    <div class="card-top">
+                        <span class="tag-badge badge-work">Work</span>
+                        <button class="check-btn" title="Mark as Complete">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                    </div>
+                    <h3 class="task-card-title">Sync With Architecture Team</h3>
+                    <p class="task-card-desc">Audit the system core repository structures and resolve pending
+                        documentation blocks.</p>
+                    <div class="card-actions">
+                        <button class="action-btn edit" title="Edit Task">
+                            <i class="fa-regular fa-pen-to-square"></i> Edit
+                        </button>
+                        <button class="action-btn delete" title="Delete Task">
+                            <i class="fa-regular fa-trash-can"></i> Delete
+                        </button>
+                    </div>
+                </div>
+
+              
+                <div class="task-card personal-border">
+                    <div class="card-top">
+                        <span class="tag-badge badge-personal">Personal</span>
+                        <button class="check-btn" title="Mark as Complete">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                    </div>
+                    <h3 class="task-card-title">Book Health Consultation</h3>
+                    <p class="task-card-desc">Schedule the routine follow-up checkup and arrange medical prescription
+                        archives.</p>
+                    <div class="card-actions">
+                        <button class="action-btn edit" title="Edit Task">
+                            <i class="fa-regular fa-pen-to-square"></i> Edit
+                        </button>
+                        <button class="action-btn delete" title="Delete Task">
+                            <i class="fa-regular fa-trash-can"></i> Delete
+                        </button>
+                    </div>
+                </div> -->
+
+            </div>
+        </main>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="todo.js"></script>
+</body>
+
+</html>
