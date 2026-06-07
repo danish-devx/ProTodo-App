@@ -278,7 +278,7 @@ async function editTask(id) {
         currentEditingTaskId = id;
 
         addBtn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Update Task`;
-        addBtn.style.background = "#22c55e"; // Green color for update mode
+        addBtn.style.background = "#22c55e"; 
     }
 }
 
