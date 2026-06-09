@@ -411,6 +411,9 @@ body::before {
     line-height: 1.5;
     font-weight: 500;
     flex-grow: 1;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .card-actions {
