@@ -12,6 +12,23 @@ const show = document.getElementById("show");
 const addBtn = document.getElementById("add-btn");
 
 
+async function checkUserSession() {
+   
+    const { data: { session }, error } = await client.auth.getSession();
+
+    if (error || !session) {
+        window.location.href = "index.html";
+    } else {
+        addTasks();
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", checkUserSession);
+
+
+
+
 async function signOut(e) {
     if (e) e.preventDefault();
 
@@ -324,9 +341,9 @@ async function toggleComplete(id, currentStatus) {
 if (logoutBtn) logoutBtn.addEventListener("click", signOut);
 if (addBtn) addBtn.addEventListener("click", createTask);
 
-document.addEventListener("DOMContentLoaded", () => {
-    addTasks();
-});
+// document.addEventListener("DOMContentLoaded", () => {
+//     addTasks();
+// });
 
 
 
