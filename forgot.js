@@ -3,6 +3,19 @@ const supabaseUrl = "https://diivjdhfxpzawnliubbk.supabase.co";
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
 
+
+const checkActiveSession = async () => {
+    const { data: { session } } = await client.auth.getSession();
+    
+    if (session) {
+        window.location.href = 'todo.html'; 
+    }
+
+};
+
+checkActiveSession();
+
+
 async function handleForgotPassword(e) {
     if (e) e.preventDefault();
 
