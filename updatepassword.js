@@ -5,8 +5,7 @@ const client = supabase.createClient(supabaseUrl, supabaseKey);
 
 const secureUpdatePasswordPage = async () => {
 
-    const isFromResetLink = window.location.hash.includes('access_token') || 
-                            window.location.search.includes('type=recovery');
+    const isFromResetLink = window.location.hash.includes('access_token') || window.location.search.includes('type=recovery');
 
     if (!isFromResetLink) {
         const { data: { session } } = await client.auth.getSession();
