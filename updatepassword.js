@@ -3,26 +3,6 @@ const supabaseUrl = "https://diivjdhfxpzawnliubbk.supabase.co";
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
 
-const secureUpdatePasswordPage = async () => {
-
-    const isFromResetLink = window.location.hash.includes('access_token') || window.location.search.includes('type=recovery');
-
-    if (!isFromResetLink) {
-        const { data: { session } } = await client.auth.getSession();
-
-        if (session) {
-            window.location.href = 'todo.html';
-        } else {
-            window.location.href = 'login.html';
-        }
-    }
-};
-
-
-secureUpdatePasswordPage();
-
-
-
 async function handleUpdatePassword(e) {
     if (e) e.preventDefault();
 
