@@ -139,6 +139,32 @@ body::before {
 }
 
 
+.user-avatar-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid var(--glass-border);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 102, 255, 0.15);
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+}
+
+.user-avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-avatar-link:hover .user-avatar-circle {
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0, 102, 255, 0.25);
+}
+
 
 .dashboard-wrapper {
     display: block; 
