@@ -24,9 +24,13 @@ async function checkProfileSession() {
 
     if (error || !session) {
       window.location.href = "index.html";
+      return; 
     }
     
+
+    userInfoFill();
 }
+
 
 document.addEventListener("DOMContentLoaded", checkProfileSession);
 
@@ -48,7 +52,7 @@ async function userInfoFill() {
   }
 }
 
-userInfoFill();
+// userInfoFill();
 
 
 async function handleProfileToggle() {
