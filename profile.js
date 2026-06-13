@@ -17,6 +17,22 @@ let originalName = "";
 let originalEmail = "";
 
 
+
+
+async function checkProfileSession() {
+    const { data: { session }, error } = await client.auth.getSession();
+
+    if (error || !session) {
+      window.location.href = "index.html";
+    }
+    
+}
+
+document.addEventListener("DOMContentLoaded", checkProfileSession);
+
+
+
+
 async function userInfoFill() {
   const { data: { user }, error } = await client.auth.getUser();
   
