@@ -134,3 +134,21 @@ discardBtn.addEventListener("click", () => {
 
 
 
+
+
+const avatarDisplay = document.getElementById("avatar-display");
+const avatarInput = document.getElementById("avatar-input");
+
+
+avatarInput.addEventListener("change", function () {
+
+  let file = avatarInput.files[0];
+  
+  if (file) {
+    avatarDisplay.src = URL.createObjectURL(file);
+  }
+
+});
+
+
+
