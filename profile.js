@@ -15,8 +15,7 @@ const titleEmail = document.getElementById("title-email");
 
 let originalName = "";
 let originalEmail = "";
-
-
+let currentUserId = ""; 
 
 
 async function checkProfileSession() {
@@ -27,7 +26,7 @@ async function checkProfileSession() {
       return; 
     }
     
-
+  
     userInfoFill();
 }
 
@@ -36,11 +35,12 @@ document.addEventListener("DOMContentLoaded", checkProfileSession);
 
 
 
-
 async function userInfoFill() {
   const { data: { user }, error } = await client.auth.getUser();
   
   if (user) {
+    currentUserId = user.id; 
+    
     originalName = user.user_metadata.first_name || "Premium User";
     originalEmail = user.email || "";
 
@@ -49,18 +49,17 @@ async function userInfoFill() {
 
     nameField.value = originalName;
     emailField.value = originalEmail;
+
+  
+    if (user.user_metadata.avatar_url) {
+        document.getElementById("avatar-display").src = user.user_metadata.avatar_url;
+    }
   }
 }
 
-// userInfoFill();
-
 
 async function handleProfileToggle() {
-  
- 
   if (nameField.hasAttribute("disabled")) {
-    
-   
     nameField.removeAttribute("disabled");
     emailField.removeAttribute("disabled");
     nameField.focus();
@@ -72,8 +71,6 @@ async function handleProfileToggle() {
     discardBtn.style.display = "block";
 
   } else {
-    
-    
     if (!nameField.value.trim() || !emailField.value.trim()) {
       Swal.fire({
         icon: 'warning',
@@ -84,7 +81,6 @@ async function handleProfileToggle() {
       return;
     }
 
-    
     editToggleBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Saving...</span>`;
     editToggleBtn.disabled = true;
 
@@ -125,10 +121,10 @@ async function handleProfileToggle() {
       closeEditMode();
     }
     
-   
     editToggleBtn.disabled = false;
   }
 }
+
 
 
 function closeEditMode() {
@@ -144,7 +140,6 @@ function closeEditMode() {
 
 editToggleBtn.addEventListener("click", handleProfileToggle);
 
-
 discardBtn.addEventListener("click", () => {
   nameField.value = originalName;
   emailField.value = originalEmail;
@@ -153,22 +148,70 @@ discardBtn.addEventListener("click", () => {
 
 
 
-
-
-
 const avatarDisplay = document.getElementById("avatar-display");
 const avatarInput = document.getElementById("avatar-input");
 
-
-avatarInput.addEventListener("change", function () {
-
-  let file = avatarInput.files[0];
+avatarInput.addEventListener("change", async function (event) {
+  const avatarFile = event.target.files[0];
   
-  if (file) {
-    avatarDisplay.src = URL.createObjectURL(file);
+  if (!avatarFile) return;
+
+
+  avatarDisplay.src = URL.createObjectURL(avatarFile);
+
+  
+  const fileExt = avatarFile.name.split('.').pop();
+  const fileName = `avatar_${currentUserId}.${fileExt}`;
+
+ 
+  Swal.fire({
+    title: 'Uploading...',
+    text: 'Saving your profile picture to Supabase vault.',
+    allowOutsideClick: false,
+    didOpen: () => { Swal.showLoading(); }
+  });
+
+ 
+  const { data: uploadData, error: uploadError } = await client
+    .storage
+    .from('avatars')
+    .upload(fileName, avatarFile, {
+      cacheControl: '3600',
+      upsert: true 
+    });
+
+  if (uploadError) {
+    Swal.close();
+    Swal.fire({ icon: 'error', title: 'Upload Failed', text: uploadError.message });
+    return;
   }
 
+
+  const { data: { publicUrl } } = client
+    .storage
+    .from('avatars')
+    .getPublicUrl(fileName);
+
+ 
+  const { data: userData, error: userError } = await client.auth.updateUser({
+    data: {
+      avatar_url: publicUrl
+    }
+  });
+
+  Swal.close(); 
+
+  if (userError) {
+    Swal.fire({ icon: 'error', title: 'Failed to Link Avatar', text: userError.message });
+  } else {
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: 'Avatar updated successfully!',
+      timer: 2000,
+      showConfirmButton: false
+    });
+   
+    avatarDisplay.src = publicUrl;
+  }
 });
-
-
-
