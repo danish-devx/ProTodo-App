@@ -1,4 +1,3 @@
-
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpaXZqZGhmeHB6YXdubGl1YmJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1NjE4NDEsImV4cCI6MjA5NjEzNzg0MX0.Qe30ARc6N73YbqLg2YxGgj5fv4jOz9tk-Xa0ycyhxKc";
 const supabaseUrl = "https://diivjdhfxpzawnliubbk.supabase.co";
 const client = supabase.createClient(supabaseUrl, supabaseKey);
@@ -11,7 +10,6 @@ const emailField = document.getElementById("profileEmail");
 
 const titleName = document.getElementById("title-name");
 const titleEmail = document.getElementById("title-email");
-
 
 let originalName = "";
 let originalEmail = "";
@@ -26,10 +24,8 @@ async function checkProfileSession() {
       return; 
     }
     
-  
     userInfoFill();
 }
-
 
 document.addEventListener("DOMContentLoaded", checkProfileSession);
 
@@ -50,9 +46,10 @@ async function userInfoFill() {
     nameField.value = originalName;
     emailField.value = originalEmail;
 
-  
+   
     if (user.user_metadata.avatar_url) {
-        document.getElementById("avatar-display").src = user.user_metadata.avatar_url;
+        const cleanUrl = user.user_metadata.avatar_url.split('?')[0];
+        document.getElementById("avatar-display").src = `${cleanUrl}?t=${new Date().getTime()}`;
     }
   }
 }
@@ -125,8 +122,6 @@ async function handleProfileToggle() {
   }
 }
 
-
-
 function closeEditMode() {
   nameField.setAttribute("disabled", "true");
   emailField.setAttribute("disabled", "true");
@@ -156,14 +151,12 @@ avatarInput.addEventListener("change", async function (event) {
   
   if (!avatarFile) return;
 
-
+ 
   avatarDisplay.src = URL.createObjectURL(avatarFile);
 
-  
   const fileExt = avatarFile.name.split('.').pop();
   const fileName = `avatar_${currentUserId}.${fileExt}`;
 
- 
   Swal.fire({
     title: 'Uploading...',
     text: 'Saving your profile picture to Supabase vault.',
@@ -171,7 +164,6 @@ avatarInput.addEventListener("change", async function (event) {
     didOpen: () => { Swal.showLoading(); }
   });
 
- 
   const { data: uploadData, error: uploadError } = await client
     .storage
     .from('avatars')
@@ -186,16 +178,17 @@ avatarInput.addEventListener("change", async function (event) {
     return;
   }
 
-
   const { data: { publicUrl } } = client
     .storage
     .from('avatars')
     .getPublicUrl(fileName);
 
  
+  const uniquePublicUrl = `${publicUrl}?t=${new Date().getTime()}`;
+
   const { data: userData, error: userError } = await client.auth.updateUser({
     data: {
-      avatar_url: publicUrl
+      avatar_url: uniquePublicUrl 
     }
   });
 
@@ -211,7 +204,7 @@ avatarInput.addEventListener("change", async function (event) {
       timer: 2000,
       showConfirmButton: false
     });
-   
-    avatarDisplay.src = publicUrl;
+    
+    avatarDisplay.src = uniquePublicUrl;
   }
 });
