@@ -11,18 +11,23 @@ const num = document.getElementById("num");
 const show = document.getElementById("show");
 const addBtn = document.getElementById("add-btn");
 
+const navUserImg = document.getElementById("nav-user-img");
 
 async function checkUserSession() {
-   
     const { data: { session }, error } = await client.auth.getSession();
 
     if (error || !session) {
         window.location.href = "index.html";
     } else {
+       
+        const user = session.user;
+        if (user && user.user_metadata && user.user_metadata.avatar_url) {
+            navUserImg.src = user.user_metadata.avatar_url;
+        }
+        
         addTasks();
     }
 }
-
 
 document.addEventListener("DOMContentLoaded", checkUserSession);
 
