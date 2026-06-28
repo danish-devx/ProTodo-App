@@ -15,6 +15,21 @@ const googleLogin = document.getElementById("google-login");
 const githubLogin = document.getElementById("github-login");
 
 
+
+async function checkActiveSession() {
+  const { data: { session }, error } = await client.auth.getSession();
+
+  if (!error && session) {
+    window.location.assign("todo.html");
+  }
+}
+
+
+document.addEventListener("DOMContentLoaded", checkActiveSession);
+
+
+
+
 async function signUp(e) {
     if (e) e.preventDefault(); 
     
